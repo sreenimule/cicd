@@ -16,7 +16,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 output application/json
 ---
 {
-	"Message":"welcome to mulesoft code"
+	"Message":"welcome to mulesoft code suvarna"
 	
 	}]]></ee:set-payload>
 			</ee:message>
