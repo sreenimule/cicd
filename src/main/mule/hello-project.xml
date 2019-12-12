@@ -9,14 +9,30 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 		<http:listener-connection host="localhost" port="8081" />
 	</http:listener-config>
 	<flow name="hello-projectFlow" doc:id="efd04802-d62f-4854-9aeb-e246d29d1c77" >
-		<http:listener doc:name="Listener" doc:id="8696d210-3d53-4c3a-a107-acf52fe314c8" config-ref="HTTP_Listener_config" path="/helloworld" allowedMethods="GET"/>
+		<http:listener doc:name="Listener" doc:id="8696d210-3d53-4c3a-a107-acf52fe314c8" config-ref="HTTP_Listener_config" path="/helloworld" allowedMethods="GET">
+			<http:response >
+				<http:body ><![CDATA[#["sucess"]]]></http:body>
+				<http:headers ><![CDATA[#[output application/java
+---
+{
+	"Status" : "250"
+}]]]></http:headers>
+			</http:response>
+			<http:error-response >
+				<http:headers ><![CDATA[#[output application/java
+---
+{
+	"Status" : "405"
+}]]]></http:headers>
+			</http:error-response>
+		</http:listener>
 		<ee:transform doc:name="Transform Message" doc:id="36023150-0b7e-4b81-bdcb-d82ed4cd7c34" >
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
 ---
 {
-	"Message":"welcome to mulesoft code suvarna"
+	"Message":"welcome to mulesoft code suvarna good"
 	
 	}]]></ee:set-payload>
 			</ee:message>
@@ -27,6 +43,7 @@ output application/java
 attributes.queryParams.Phonenumber]]></ee:set-variable>
 			</ee:variables>
 		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="48b5f288-cf1d-4446-a004-2ff226353c6d" message="#[payload]"/>
 		<set-payload value="#[payload]" doc:name="Set Payload" doc:id="03b4c9e8-a39a-41f2-921c-935e9fec99ba" />
 	</flow>
 </mule>
